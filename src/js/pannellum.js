@@ -3067,9 +3067,12 @@ this.getConfig = function() {
     return config;
 };
 
-this.setConfig = function(newConfig) {
-    for (var i in newConfig) {
-        config[i] = newConfig[i]
+this.setConfig = function(newConfig, verbatim) {
+    if (verbatim) config = newConfig
+    else {
+        for (var i in newConfig) {
+            config[i] = newConfig[i]
+        }
     }
 };
 
