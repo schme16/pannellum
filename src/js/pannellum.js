@@ -734,7 +734,7 @@ function onDocumentMouseDown(event) {
     container.focus();
     
     // Only do something if the panorama is loaded
-    if (!loaded || !config.draggable || config.draggingHotSpot) {
+    if (!loaded || !config.draggable || config.draggingHotSpot || config.readOnly) {
         return;
     }
     
@@ -778,6 +778,8 @@ function onDocumentMouseDown(event) {
  * @param {MouseEvent} event - Document mouse down event.
  */
 function onDocumentDoubleClick(event) {
+    if (config.readOnly) return 
+    
     if (config.minHfov === config.hfov) {
         _this.setHfov(origHfov, 1000);
     } else {
@@ -819,6 +821,9 @@ function mouseEventToCoords(event) {
  * @param {MouseEvent} event - Document mouse move event.
  */
 function onDocumentMouseMove(event) {
+    if (config.readOnly) return
+    
+    
     if (draggingHotSpot) {
         moveHotSpot(draggingHotSpot, event);
     } else if (isUserInteracting && loaded) {
@@ -845,6 +850,8 @@ function onDocumentMouseMove(event) {
  * @private
  */
 function onDocumentMouseUp(event) {
+    if (config.readOnly) return
+    
     if (draggingHotSpot && draggingHotSpot.dragHandlerFunc)
         draggingHotSpot.dragHandlerFunc(event, draggingHotSpot.dragHandlerArgs);
     draggingHotSpot = null;
@@ -873,7 +880,7 @@ function onDocumentMouseUp(event) {
  */
 function onDocumentTouchStart(event) {
     // Only do something if the panorama is loaded
-    if (!loaded || !config.draggable || draggingHotSpot) {
+    if (!loaded || !config.draggable || draggingHotSpot || config.readOnly) {
         return;
     }
 
@@ -916,7 +923,7 @@ function onDocumentTouchStart(event) {
  * @param {TouchEvent} event - Document touch move event.
  */
 function onDocumentTouchMove(event) {
-    if (!config.draggable) {
+    if (!config.draggable || config.readOnly) {
         return;
     }
 
@@ -964,6 +971,8 @@ function onDocumentTouchMove(event) {
  * @private
  */
 function onDocumentTouchEnd() {
+    if (config.readOnly) return
+    
     draggingHotSpot = null;
 
     isUserInteracting = false;
@@ -984,6 +993,8 @@ var pointerIDs = [],
  * @param {PointerEvent} event - Document pointer down event.
  */
 function onDocumentPointerDown(event) {
+    if (config.readOnly) return
+    
     if (event.pointerType == 'touch') {
         // Only do something if the panorama is loaded
         if (!loaded || !config.draggable)
@@ -1002,6 +1013,8 @@ function onDocumentPointerDown(event) {
  * @param {PointerEvent} event - Document pointer move event.
  */
 function onDocumentPointerMove(event) {
+    if (config.readOnly) return
+    
     if (event.pointerType == 'touch') {
         if (draggingHotSpot) {
             moveHotSpot(draggingHotSpot, event);
@@ -1029,6 +1042,8 @@ function onDocumentPointerMove(event) {
  * @param {PointerEvent} event - Document pointer up event.
  */
 function onDocumentPointerUp(event) {
+    if (config.readOnly) return
+    
     if (draggingHotSpot && draggingHotSpot.dragHandlerFunc)
         draggingHotSpot.dragHandlerFunc(event, draggingHotSpot.dragHandlerArgs);
     draggingHotSpot = null;
@@ -1056,6 +1071,8 @@ function onDocumentPointerUp(event) {
  * @param {WheelEvent} event - Document mouse wheel event.
  */
 function onDocumentMouseWheel(event) {
+    if (config.readOnly) return
+    
     // Only do something if the panorama is loaded and mouse wheel zoom is enabled
     if (!loaded || (config.mouseZoom == 'fullscreenonly' && !fullscreenActive)) {
         return;
@@ -1089,6 +1106,8 @@ function onDocumentMouseWheel(event) {
  * @param {KeyboardEvent} event - Document key press event.
  */
 function onDocumentKeyPress(event) {
+    if (config.readOnly) return
+    
     // Turn off auto-rotation if enabled
     stopAnimation();
     latestInteraction = Date.now();
@@ -1132,6 +1151,8 @@ function clearKeys() {
  * @param {KeyboardEvent} event - Document key up event.
  */
 function onDocumentKeyUp(event) {
+    if (config.readOnly) return
+    
     // Record key pressed
     var keynumber = event.which || event.keycode;
     
