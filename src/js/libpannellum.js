@@ -1279,7 +1279,6 @@ function Renderer(container) {
                 }
                 var node = texturesLoading[path];
                 if (node) {
-                    console.log(node)
                     delete texturesLoading[path];
                     node.texture = texture;
                     node.textureLoaded = loaded ? 2 : 1;
