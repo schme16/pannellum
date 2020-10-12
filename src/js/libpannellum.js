@@ -1234,6 +1234,7 @@ function Renderer(container) {
      * @param {MultiresNode} node - Input node.
      */
     function processNextTileFallback(node) {
+        alert(123)
         loadTexture(node, node.path + '.' + image.extension, function(texture, loaded) {
             node.texture = texture;
             node.textureLoaded = loaded ? 2 : 1;
@@ -1277,9 +1278,12 @@ function Renderer(container) {
                     loaded = true;
                 }
                 var node = texturesLoading[path];
-                delete texturesLoading[path];
-                node.texture = texture;
-                node.textureLoaded = loaded ? 2 : 1;
+                if (node) {
+                    console.log(node)
+                    delete texturesLoading[path];
+                    node.texture = texture;
+                    node.textureLoaded = loaded ? 2 : 1;
+                }
             });
         };
         processNextTile = function(node) {
