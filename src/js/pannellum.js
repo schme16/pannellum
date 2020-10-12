@@ -3046,6 +3046,10 @@ this.getConfig = function() {
     return config;
 };
 
+this.setConfig = function(newConfig) {
+    config = newConfig
+};
+
 /**
  * Get viewer's container element.
  * @memberof Viewer
