@@ -3068,7 +3068,9 @@ this.getConfig = function() {
 };
 
 this.setConfig = function(newConfig) {
-    config = newConfig
+    for (var i in newConfig) {
+        config[i] = newConfig[i]
+    }
 };
 
 /**
